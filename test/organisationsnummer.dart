@@ -74,7 +74,6 @@ void main() {
       expect(org.type(), type);
       expect(org.isPersonnummer(), true);
       expect(org.personnummer().runtimeType, Personnummer);
-      // expect(org.personnummer().constructor.name).toBe('Personnummer');
     });
   });
 
