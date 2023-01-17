@@ -4,7 +4,7 @@ import 'package:personnummer/personnummer.dart';
 
 void main() {
   test('should validate valid organization numbers', () {
-    var numbers = ['556016-0680', '556103-4249', '5561034249'];
+    var numbers = ['556016-0680', '556103-4249', '5561034249', '559244-0001'];
 
     numbers
         .forEach((number) => expect(Organisationsnummer.valid(number), true));
@@ -22,6 +22,7 @@ void main() {
       '556016-0680': '5560160680',
       '556103-4249': '5561034249',
       '5561034249': '5561034249',
+      '559244-0001': '5592440001',
     };
 
     numbers.forEach((input, output) =>
@@ -33,6 +34,7 @@ void main() {
       '556016-0680': '556016-0680',
       '556103-4249': '556103-4249',
       '5561034249': '556103-4249',
+      '559244-0001': '559244-0001',
     };
 
     numbers.forEach((input, output) =>
@@ -55,6 +57,7 @@ void main() {
       '556016-0680': 'SE556016068001',
       '556103-4249': 'SE556103424901',
       '5561034249': 'SE556103424901',
+      '559244-0001': 'SE559244000101',
     };
 
     numbers.forEach((input, output) =>
