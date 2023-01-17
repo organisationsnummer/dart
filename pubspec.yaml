@@ -4,7 +4,7 @@ description: Validate Swedish organization numbers with Dart and Flutter.
 homepage: https://github.com/organisationsnummer/dart
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.18.0 <3.0.0'
 
 dev_dependencies:
   test: ^1.22.2
