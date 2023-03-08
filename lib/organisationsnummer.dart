@@ -14,8 +14,8 @@ class Organisationsnummer {
   Personnummer? _personnummer = null;
 
   /// Organisationsnummer constructor.
-  Organisationsnummer(String input) {
-    _parse(input);
+  Organisationsnummer(String org) {
+    _parse(org);
   }
 
   /// Luhn/mod10 algorithm. Used to calculate a checksum from the passed value
@@ -38,13 +38,17 @@ class Organisationsnummer {
   }
 
   /// Parse Swedish organization numbers and set properties.
-  void _parse(String input) {
+  void _parse(String org) {
+    if (org.length < 10 || org.length > 13) {
+      throw OrganisationsnummerException();
+    }
+
     var reg =
         RegExp(r'^(\d{2}){0,1}(\d{2})(\d{2})(\d{2})([\+\-]?)(\d{3})(\d)$');
     var match;
 
     try {
-      number = input.replaceAll('-', '');
+      number = org.replaceAll('-', '');
       match = reg.firstMatch(number);
 
       if (match == null) {
@@ -52,8 +56,12 @@ class Organisationsnummer {
       }
 
       // May only be prefixed with 16.
-      if (match[1] != null && int.parse(match[1]) != 16) {
-        throw OrganisationsnummerException();
+      if (match[1] != null) {
+        if (int.parse(match[1]) != 16) {
+          throw OrganisationsnummerException();
+        } else {
+          number = number.substring(2);
+        }
       }
 
       // Third digit bust be more than 20.
@@ -71,7 +79,7 @@ class Organisationsnummer {
       }
     } catch (e) {
       try {
-        this._personnummer = Personnummer.parse(input);
+        this._personnummer = Personnummer.parse(org);
       } catch (_) {
         throw e;
       }
@@ -129,15 +137,15 @@ class Organisationsnummer {
 
   /// Parse Swedish organization numbers.
   /// Returns `Organisationsnummer` class.
-  static Organisationsnummer parse(String input) {
-    return Organisationsnummer(input);
+  static Organisationsnummer parse(String org) {
+    return Organisationsnummer(org);
   }
 
   /// Validates Swedish organization numbers.
-  /// Returns `true` if the input value is a valid Swedish organization number
-  static bool valid(String input) {
+  /// Returns `true` if the org value is a valid Swedish organization number
+  static bool valid(String org) {
     try {
-      parse(input);
+      parse(org);
       return true;
     } catch (e) {
       return false;

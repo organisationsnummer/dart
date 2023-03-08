@@ -1,93 +1,71 @@
 import 'package:test/test.dart';
 import 'package:organisationsnummer/organisationsnummer.dart';
 import 'package:personnummer/personnummer.dart';
+import 'dart:io';
+import 'dart:async';
+import 'dart:convert';
 
-void main() {
+Future<String> fetchUrlBodyAsString(String url) async {
+  var request = await HttpClient().getUrl(Uri.parse(url));
+  var response = await request.close();
+  return response.transform(utf8.decoder).join();
+}
+
+void main() async {
+  final url =
+      'https://raw.githubusercontent.com/organisationsnummer/meta/main/testdata/list.json';
+  String body = await fetchUrlBodyAsString(url);
+  List<dynamic> list = jsonDecode(body);
+  runTests(list);
+}
+
+void runTests(List<dynamic> list) {
   test('should validate valid organization numbers', () {
-    var numbers = ['556016-0680', '556103-4249', '5561034249', '559244-0001'];
-
-    numbers
-        .forEach((number) => expect(Organisationsnummer.valid(number), true));
+    list.where((item) => item['valid']).forEach(
+        (item) => expect(Organisationsnummer.valid(item['input']), true));
   });
 
   test('should validate invalid organization numbers', () {
-    var numbers = ['556016-0681', '556103-4250', '5561034250'];
-
-    numbers
-        .forEach((number) => expect(Organisationsnummer.valid(number), false));
+    list.where((item) => !item['valid']).forEach(
+        (item) => expect(Organisationsnummer.valid(item['input']), false));
   });
 
   test('should format organization numbers without separator', () {
-    var numbers = {
-      '556016-0680': '5560160680',
-      '556103-4249': '5561034249',
-      '5561034249': '5561034249',
-      '559244-0001': '5592440001',
-    };
-
-    numbers.forEach((input, output) =>
-        expect(Organisationsnummer.parse(input).format(false), output));
+    list.where((item) => item['valid']).forEach((item) => expect(
+        Organisationsnummer.parse(item['input']).format(false),
+        item['short_format']));
   });
 
   test('should format organization numbers with separator', () {
-    var numbers = {
-      '556016-0680': '556016-0680',
-      '556103-4249': '556103-4249',
-      '5561034249': '556103-4249',
-      '559244-0001': '559244-0001',
-    };
-
-    numbers.forEach((input, output) =>
-        expect(Organisationsnummer.parse(input).format(), output));
+    list.where((item) => item['valid']).forEach((item) => expect(
+        Organisationsnummer.parse(item['input']).format(),
+        item['long_format']));
   });
 
   test('should get type from organization numbers', () {
-    var numbers = {
-      '556016-0680': 'Aktiebolag',
-      '556103-4249': 'Aktiebolag',
-      '5561034249': 'Aktiebolag',
-    };
-
-    numbers.forEach((input, output) =>
-        expect(Organisationsnummer.parse(input).type(), output));
+    list.where((item) => item['valid']).forEach((item) =>
+        expect(Organisationsnummer.parse(item['input']).type(), item['type']));
   });
 
   test('should get vat number for organization numbers', () {
-    var numbers = {
-      '556016-0680': 'SE556016068001',
-      '556103-4249': 'SE556103424901',
-      '5561034249': 'SE556103424901',
-      '559244-0001': 'SE559244000101',
-    };
-
-    numbers.forEach((input, output) =>
-        expect(Organisationsnummer.parse(input).vatNumber(), output));
+    list.where((item) => item['valid']).forEach((item) => expect(
+        Organisationsnummer.parse(item['input']).vatNumber(),
+        item['vat_number']));
   });
 
   test('should work with personal identity numbers', () {
-    const type = 'Enskild firma';
-    const numbers = {'121212121212': '121212-1212'};
-
-    numbers.forEach((input, output) {
-      expect(Organisationsnummer.valid(output), true);
-      expect(Organisationsnummer.valid(input), true);
-      var org = Organisationsnummer.parse(input);
-      expect(org.format(false), output.replaceAll('-', ''));
-      expect(org.format(true), output);
-      expect(org.type(), type);
+    list
+        .where((item) => item['valid'] && item['type'] == 'Enskild firma')
+        .forEach((item) {
+      expect(Organisationsnummer.valid(item['long_format']), true);
+      expect(Organisationsnummer.valid(item['input']), true);
+      var org = Organisationsnummer.parse(item['input']);
+      expect(org.format(false), item['short_format']);
+      expect(org.format(true), item['long_format']);
+      expect(org.type(), item['type']);
       expect(org.isPersonnummer(), true);
       expect(org.personnummer().runtimeType, Personnummer);
-    });
-  });
-
-  test('should get vat number for personal identity numbers', () {
-    const numbers = {
-      '121212121212': 'SE121212121201',
-      '12121212-1212': 'SE121212121201',
-    };
-
-    numbers.forEach((input, output) {
-      expect(Organisationsnummer.parse(input).vatNumber(), output);
+      expect(org.vatNumber(), item['vat_number']);
     });
   });
 }
