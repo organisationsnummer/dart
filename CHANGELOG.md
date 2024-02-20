@@ -1,3 +1,8 @@
+### 1.0.3
+
+- Allow + characters in enskild firma
+- Support new Dart versions.
+
 ## 1.0.2
 
 - Fixed issue with organization numbers prefixed with 16
