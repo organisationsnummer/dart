@@ -91,7 +91,10 @@ class Organisationsnummer {
     var _number = number;
 
     if (this.isPersonnummer()) {
-      _number = this._personnummer!.format(true).substring(2, 12);
+      return this
+          ._personnummer!
+          .format(!separator)
+          .substring(!separator ? 2 : 0);
     }
 
     return separator
