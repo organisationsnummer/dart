@@ -17,7 +17,7 @@ jobs:
       image:  google/dart:latest
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - name: Install dependencies
       run: pub get
     - name: Run tests
