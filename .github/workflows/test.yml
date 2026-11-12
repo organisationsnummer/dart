@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image:  google/dart:latest
+      image:  google/dart:latest@sha256:18bddbade58e5109a38a7bcd44839bbd29341ea3f091debf936a84c6da625bc7
 
     steps:
-    - uses: actions/checkout@v7
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
     - name: Install dependencies
       run: pub get
     - name: Run tests
