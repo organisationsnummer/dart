@@ -1,4 +1,4 @@
-import 'package:personnummer/personnummer.dart';
+import 'package:personnummer_dart/personnummer_dart.dart';
 
 class OrganisationsnummerException implements Exception {
   String cause;
