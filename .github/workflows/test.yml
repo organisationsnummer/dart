@@ -13,12 +13,12 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    container:
-      image:  google/dart:latest@sha256:18bddbade58e5109a38a7bcd44839bbd29341ea3f091debf936a84c6da625bc7
-
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - uses: dart-lang/setup-dart@v1
     - name: Install dependencies
-      run: pub get
+      run: dart pub get
+    - name: Analyze
+      run: dart analyze
     - name: Run tests
-      run: pub run test/organisationsnummer.dart
+      run: dart test test/organisationsnummer.dart

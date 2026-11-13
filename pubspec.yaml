@@ -9,4 +9,4 @@ environment:
 dev_dependencies:
   test: ^1.20.1
 dependencies:
-  personnummer: ^3.0.5
+  personnummer_dart: ^3.1.1
