@@ -1,5 +1,5 @@
 name: organisationsnummer_dart
-version: 1.0.4
+version: 1.0.5
 description: Validate Swedish organization numbers with Dart and Flutter.
 homepage: https://github.com/organisationsnummer/dart
 repository: https://github.com/organisationsnummer/dart
