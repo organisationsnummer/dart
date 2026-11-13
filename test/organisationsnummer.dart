@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:organisationsnummer/organisationsnummer.dart';
+import 'package:organisationsnummer_dart/organisationsnummer_dart.dart';
 import 'package:personnummer_dart/personnummer_dart.dart';
 import 'dart:io';
 import 'dart:async';
