@@ -1,19 +1,19 @@
-# organisationsnummer [![Build Status](https://github.com/organisationsnummer/dart/actions/workflows/test.yml/badge.svg)](https://github.com/organisationsnummer/dart/actions/workflows/test.yml) [![pub package](https://img.shields.io/pub/v/organisationsnummer.svg)](https://pub.dev/packages/organisationsnummer)
+# organisationsnummer [![Build Status](https://github.com/organisationsnummer/dart/actions/workflows/test.yml/badge.svg)](https://github.com/organisationsnummer/dart/actions/workflows/test.yml) [![pub package](https://img.shields.io/pub/v/organisationsnummer_dart.svg)](https://pub.dev/packages/organisationsnummer_dart)
 
 Validate Swedish organization numbers. Follows version 1.1 of the [specification](https://github.com/organisationsnummer/meta#package-specification-v11).
 
 ## Installation
 
 ```sh
-dart pub add organisationsnummer
+dart pub add organisationsnummer_dart
 ```
 
-Published on [pub.dev](https://pub.dev/packages/organisationsnummer).
+Published on pub.dev as [organisationsnummer_dart](https://pub.dev/packages/organisationsnummer_dart). It replaces the old `organisationsnummer` package, which can no longer be updated. Change the dependency and the import to `organisationsnummer_dart`, the API is the same.
 
 ## Example
 
 ```dart
-import 'package:organisationsnummer/organisationsnummer.dart';
+import 'package:organisationsnummer_dart/organisationsnummer_dart.dart';
 
 Organisationsnummer.valid('202100-5489');
 //=> true
