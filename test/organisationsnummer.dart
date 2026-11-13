@@ -13,7 +13,7 @@ Future<String> fetchUrlBodyAsString(String url) async {
 
 void main() async {
   final url =
-      'https://raw.githubusercontent.com/organisationsnummer/meta/main/testdata/list.json';
+      'https://raw.githubusercontent.com/organisationsnummer/meta/HEAD/testdata/list.json';
   String body = await fetchUrlBodyAsString(url);
   List<dynamic> list = jsonDecode(body);
   runTests(list);
